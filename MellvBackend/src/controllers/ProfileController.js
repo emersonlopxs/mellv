@@ -10,7 +10,7 @@ module.exports = {
         .select(['id', 'name', 'surname', 'displayname', 'email'])
         .where('id', id);
       return res.json(client);
-    } catch {
+    } catch (err) {
       return res.status(500).json({
         message: 'Não foi possível processar sua requisição',
         status: 'could not show client',
