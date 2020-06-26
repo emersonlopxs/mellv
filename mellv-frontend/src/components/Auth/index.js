@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { store } from 'react-notifications-component';
 
@@ -26,6 +26,12 @@ export default function Auth() {
     rPassword: '',
     rConfirmPassword: '',
   });
+
+  useEffect(() => {
+    if (localStorage.token) {
+      history.push('/my-account');
+    }
+  }, [history]);
 
   function _handleChange(e) {
     setValues({

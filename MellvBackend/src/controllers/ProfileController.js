@@ -34,9 +34,6 @@ module.exports = {
       }
 
       const token = createToken(clients.id);
-
-      console.log('client -> ', client);
-
       return res.status(204).header('x-access-token', token).send();
     } catch (error) {
       console.log(error);
