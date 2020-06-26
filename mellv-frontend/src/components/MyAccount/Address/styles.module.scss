@@ -1,0 +1,38 @@
+.Container {
+  p {
+    line-height: 25px;
+    margin-bottom: 30px;
+  }
+  .AddressGroup {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    .AddressSection {
+      width: 40%;
+      .AddressContent {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 15px;
+        width: 100%;
+        h3 {
+          margin: 0;
+          font-size: 25px;
+          .EditBtn {
+            svg {
+              height: 20px;
+              width: 20px;
+            }
+          }
+        }
+      }
+      .AddressData {
+        p {
+          font-style: italic;
+          letter-spacing: 0.2px;
+          margin: 0;
+        }
+      }
+    }
+  }
+}

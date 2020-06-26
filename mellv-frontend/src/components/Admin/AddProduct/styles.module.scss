@@ -1,0 +1,49 @@
+.Container {
+  height: 100%;
+  margin-top: 100px;
+  form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    input + button {
+      background: transparent;
+      font-weight: bold;
+      color: #000;
+      font-size: 30px;
+    }
+  }
+  input {
+    margin-bottom: 16px;
+    width: 370px;
+  }
+  select {
+    margin-bottom: 16px;
+    height: 40px;
+    border: 1px solid #000;
+    border-radius: 4px;
+    outline: none;
+    font-size: 16px;
+    width: 370px;
+  }
+}
+.Sizes {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 370px;
+
+  input {
+    margin: 0 40px 0 5px;
+  }
+}
+.Imagens {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 16px;
+  width: 370px;
+  input {
+    margin-top: 16px;
+    width: 370px;
+  }
+}

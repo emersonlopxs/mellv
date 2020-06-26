@@ -1,0 +1,23 @@
+.Container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  p {
+    font-size: 18px;
+    margin-bottom: 30px;
+    strong {
+      font-weight: bold;
+    }
+    button {
+      background: transparent;
+      color: #000;
+      font-size: 18px;
+      width: fit-content;
+      text-decoration: underline;
+    }
+    button:hover {
+      text-decoration: none;
+    }
+  }
+}
