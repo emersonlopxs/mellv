@@ -58,6 +58,8 @@ routes.delete('/dev/admin/delete', admin.delete); /* development route */
 routes.put('/admin/update', admin.update);
 
 /* routes for order */
+// should be an admin token to get all orders
+routes.get('/orders', order.all);
 routes.get('/order', JWT.verifyJWT, order.index);
 routes.post('/order/create', JWT.verifyJWT, order.create);
 routes.delete('/order/delete/:order_id', JWT.verifyJWT, order.delete);

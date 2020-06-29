@@ -1,6 +1,54 @@
 const connection = require('../../database/connection')
 
 module.exports = {
+  async all(req, res) {
+    let same = [], order, order_det
+    try {
+      order = await connection('order')
+        .join('address', 'order.address_id', 'address.id')
+        .select([
+          'address.street',
+          'address.district',
+          'address.number',
+          'address.complement',
+          'order.id',
+          'order.cupon_id',
+          'order.total_price',
+          'order.status',
+          'order.note',
+          'order.created_at'
+        ])
+    }
+    catch (err) {
+      return res.json({
+        status: 'could not select order instance in database',
+        err
+      })
+    }
+
+    const id = order.map(e => e.id)
+
+    try {
+      order_det = await connection('order_det').select('*').whereIn('order_id', id)
+    }
+    catch (err) {
+      res.json({
+        status: 'could not select order details instance in database',
+        err
+      })
+    }
+    for (let i = 0; i < order.length; i++) {
+      for (let j = 0; j < order_det.length; j++) {
+        if (order[i].id === order_det[j].order_id) {
+          same.push({ product_id: order_det[j].product_id, amount: order_det[j].amount })
+        }
+      }
+      order[i].details = same
+      same = []
+    }
+    res.json(order)
+  },
+
   async index(req, res) {
     const cli_id = req.cli_id
     const test = []

@@ -1,13 +1,14 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route as ReactDOMRoute } from 'react-router-dom';
 import Loadable from 'react-loadable';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import 'react-notifications-component/dist/theme.css'
+import 'react-notifications-component/dist/theme.css';
 import ReactNotification from 'react-notifications-component';
 
 import Card from './components/Card';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import Route from './components/Route';
 
 export function Loader() {
   return (
@@ -57,24 +58,49 @@ const LoadableMyAccount = Loadable({
 });
 
 function Camaleao() {
+  console.log('camaleao!');
+
+  // // terrible way to the admin state
+  // // handle this on a separated login page
+  // const { isAdmin } = localStorage;
+
+  // if (isAdmin) {
+  //   return (
+  //     <>
+  //       <ReactDOMRoute path="/" isPrivate component={LoadableAdmin} />
+  //     </>
+  //   );
+  // }
+
   return (
     <>
       <Navbar />
       <ReactNotification />
       <Switch>
-        <Route exact path="/" component={LoadableHome} />
         <Route path="/auth" component={LoadableAuth} />
-        <Route path="/my-account" component={LoadableMyAccount} />
-        <Route path="/contact" component={LoadableContact} />
-        <Route path="/about-us" component={LoadableAbout} />
-        <Route path="/cart" component={LoadableCart} />
-        <Route path="/product/:id" component={LoadableProduct} />
-        <Route path="/admin" component={LoadableAdmin} />
-        <Route path="/card" component={Card} />
+        <Route path="/my-account" isPrivate component={LoadableMyAccount} />
+        {/* <ReactDOMRoute path="/admin" isPrivate component={LoadableAdmin} /> */}
+        <ReactDOMRoute path="/contact" component={LoadableContact} />
+        <ReactDOMRoute path="/about-us" component={LoadableAbout} />
+        <ReactDOMRoute path="/cart" component={LoadableCart} />
+        <ReactDOMRoute path="/product/:id" component={LoadableProduct} />
+        <ReactDOMRoute path="/card" component={Card} />
+        <ReactDOMRoute path="/" component={LoadableHome} />
+        
       </Switch>
       <Footer />
     </>
   );
 }
 
-export default Camaleao;
+export default function CamaleaoRoutes() {
+  return (
+    <>
+      <ReactNotification />
+      <Switch>
+        <ReactDOMRoute path="/admin" isPrivate component={LoadableAdmin} />
+        <ReactDOMRoute path="/" component={Camaleao} />
+      </Switch>
+    </>
+  );
+}

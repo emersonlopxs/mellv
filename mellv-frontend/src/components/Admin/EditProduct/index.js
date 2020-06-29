@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import api from '../../../api';
+import { store } from 'react-notifications-component';
+// import { useHistory } from 'react-router-dom';
+
 import { Container, Sizes, Imagens, AddContainer } from './styles.module.scss';
-import { useHistory } from 'react-router-dom';
+import api from '../../../api';
 import Card from '../../Card';
 
-function Edit({ match }) {
+function Edit({ match, setActive }) {
   useEffect(() => {
     window.scrollTo(0, document.body.scrollHeight);
   }, []);
 
   const [product, setProduct] = useState({
     name: JSON.parse(localStorage.getItem('ProductEdit')).name,
+    id: JSON.parse(localStorage.getItem('ProductEdit')).id,
     type: JSON.parse(localStorage.getItem('ProductEdit')).type,
     price: JSON.parse(localStorage.getItem('ProductEdit')).price,
     sizes: [JSON.parse(JSON.parse(localStorage.getItem('ProductEdit')).sizes)],
@@ -18,7 +21,7 @@ function Edit({ match }) {
     images: JSON.parse(localStorage.getItem('ProductEdit')).images,
   });
 
-  const history = useHistory();
+  // const history = useHistory();
 
   async function handleCreate(e) {
     e.preventDefault();
@@ -31,12 +34,39 @@ function Edit({ match }) {
       images: product.images,
     };
     try {
-      await api.put(`/products/update/${match.params.id}`, data).then(() => {
-        alert('Produto editado');
-        history.push('/admin');
+      await api.put(`/products/update/${product.id}`, data).then(() => {
+        // alert('Produto editado');
+        // history.push('/admin');
+        store.addNotification({
+          title: 'Produto Editado!',
+          message: 'O produto foi editado com successo!',
+          type: 'success',
+          insert: 'top',
+          container: 'top-right',
+          animationIn: ['animated', 'fadeIn'],
+          animationOut: ['animated', 'fadeOut'],
+          dismiss: {
+            duration: 8000,
+            onScreen: true,
+          },
+        });
+        setActive(0);
       });
     } catch (error) {
       console.log(error);
+      store.addNotification({
+        title: 'Ooops',
+        message: 'Houve um erro ao editar o produto',
+        type: 'danger',
+        insert: 'top',
+        container: 'top-right',
+        animationIn: ['animated', 'fadeIn'],
+        animationOut: ['animated', 'fadeOut'],
+        dismiss: {
+          duration: 8000,
+          onScreen: true,
+        },
+      });
     }
   }
   // console.log('Params ->', match.params.id);
@@ -65,8 +95,7 @@ function Edit({ match }) {
           <label>Tipo</label>
           <select
             value={product.type}
-            onChange={(e) => setProduct({ ...product, type: e.target.value })}
-          >
+            onChange={(e) => setProduct({ ...product, type: e.target.value })}>
             <option value={1}>Tipo 1</option>
             <option value={2}>Tipo 2</option>
           </select>

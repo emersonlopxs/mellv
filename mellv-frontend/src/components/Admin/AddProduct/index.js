@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../../api';
 import { Container, Sizes, Imagens } from './styles.module.scss';
-import { useHistory } from 'react-router-dom';
+// import { useHistory } from 'react-router-dom';
+import { store } from 'react-notifications-component';
 // import { animateScroll } from 'react-scroll';
 
-function Add() {
+function Add({ setActive }) {
   useEffect(() => {
     window.scrollTo(0, document.body.scrollHeight);
   }, []);
 
-  const history = useHistory();
+  // const history = useHistory();
 
   const [product, setProduct] = useState({
     name: '',
@@ -41,11 +42,39 @@ function Add() {
     // console.log(data);
     try {
       await api.post('/products/create', data).then(() => {
-        alert('Produto Adicionado');
-        history.push('/admin');
+        store.addNotification({
+          title: 'Produto Adcionado!',
+          message: 'O produto foi adcionado com successo!',
+          type: 'success',
+          insert: 'top',
+          container: 'top-right',
+          animationIn: ['animated', 'fadeIn'],
+          animationOut: ['animated', 'fadeOut'],
+          dismiss: {
+            duration: 8000,
+            onScreen: true,
+          },
+        });
+
+        // history.push('/admin');
+        // perguntar se quer adcionar mais ou apenas 1
+        setActive(0)
       });
     } catch (error) {
       console.log(error);
+      store.addNotification({
+        title: 'Ooops',
+        message: 'Houve um erro ao adcionar o produto',
+        type: 'danger',
+        insert: 'top',
+        container: 'top-right',
+        animationIn: ['animated', 'fadeIn'],
+        animationOut: ['animated', 'fadeOut'],
+        dismiss: {
+          duration: 8000,
+          onScreen: true,
+        },
+      });
     }
   }
   return (
@@ -61,8 +90,7 @@ function Add() {
         <label>Tipo</label>
         <select
           value={product.type}
-          onChange={(e) => setProduct({ ...product, type: e.target.value })}
-        >
+          onChange={(e) => setProduct({ ...product, type: e.target.value })}>
           <option value={1}>Tipo 1</option>
           <option value={2}>Tipo 2</option>
         </select>
@@ -166,8 +194,7 @@ function Add() {
                 ...prev,
                 images: [...prev.images, ''],
               }));
-            }}
-          >
+            }}>
             +
           </button>
         </div>

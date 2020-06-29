@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react';
 
-import { Container, Wrapper } from "./styles.module.scss";
+import { Container, Wrapper } from './styles.module.scss';
 
 export default function Footer() {
   return (
@@ -16,6 +16,9 @@ export default function Footer() {
           a expressa autorização da administrador do site Camaleão.
         </div>
         <div>Camaleão © 2019 Todos os direitos reservados.</div>
+        <div>
+          <strong>Mellv</strong>
+        </div>
       </div>
     </div>
   );
